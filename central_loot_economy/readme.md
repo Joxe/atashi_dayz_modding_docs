@@ -6,20 +6,20 @@ To control the CLE there are a bunch of XML files located in the mission directo
 The exact piece of loot that spawns is not decided by any controllable chance and all of this seems to happen inside the engine meaning that it's not possible (to my knowledge) to change how the CLE selects items and loot positions. Making weapons spawn more often, for example, can then only be done by modifying the amount of weapons that are available on the map as a whole and which tiers or categories they exist in. Simply doing something as simple as doubling the amount of M4s that should exist doesn't necessarily mean that players will find them *that* more often due to the sheer amount of loot spots that exist. The best way to modify the CLE depends on the goal you want to achieve and I hope to give you an introduction to the tools available so you can make the changes that you deem necessary. To make it even more difficult any changes that you do make to the CLE data will not instantly be reflected on the server or it might take a while until the economy "settles" with old items being removed and new ones added, testing loot changes is best done by constantly resetting the server persistence and inspecting the results. Sometimes the CLE is not fit for purpose for spawning items the way you want so creating your own loot systems might be necessary if you want to do major changes.
 # Modify item occurance
 The first thing that I expect most people want to do is to modify how often an item appears in the world. This is primarily done by modifying the `nominal` value inside `\DayZServer\mpmissions\dayzOffline.chernarusplus\db\types.xml`, lets look at an example:
-```
+```xml
 <type name="M16A2">
-    <nominal>7</nominal>
-    <lifetime>28800</lifetime>
-    <restock>0</restock>
-    <min>4</min>
-    <quantmin>30</quantmin>
-    <quantmax>80</quantmax>
-    <cost>100</cost>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0"/>
-    <category name="weapons"/>
-    <usage name="Military"/>
-    <value name="Tier3"/>
-    <value name="Tier4"/>
+	<nominal>7</nominal>
+	<lifetime>28800</lifetime>
+	<restock>0</restock>
+	<min>4</min>
+	<quantmin>30</quantmin>
+	<quantmax>80</quantmax>
+	<cost>100</cost>
+	<flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0"/>
+	<category name="weapons"/>
+	<usage name="Military"/>
+	<value name="Tier3"/>
+	<value name="Tier4"/>
 </type>
 ```
 The full breakdown of this piece of code can be found in the [types.xml documentation](db/types.md) but for now we can see the line `<nominal>7</nominal>` which is telling the CLE to attempt to keep 7 instances of the M16A2 on the map. If we increase this to 20 it will start spawning more of them until it reaches 20 instances, if we change the value to 0 it will no longer spawn the M16A2 at all. Setting the value to a lower value than what exists on the map does not mean that the CLE will go around and delete them. Items also store their remaining lifetime in the server persistence so setting the lifetime to `0` won't delete any existing items, and nothing you do can make the CLE delete items from players. This reality means that deleting items that once spawned might be a bit difficult and you probably have to do some scripting to make sure it happens (like cleaning up player's inventory upon login).

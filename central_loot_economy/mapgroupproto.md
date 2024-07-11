@@ -1,6 +1,6 @@
 # Introduction
 The `mapgroupproto.xml` file contains the usage tags and loot position for each type of building in DayZ. Alongside the `usage` tag in [types.xml](db/types.md) this is what makes a Military Tent know that it should spawn military gear and that a farm building should spawn farm gear. As an example we will take a loot at the military grade Fire Station which you can find on the North-West Airfield since it shows off most of the things that you can do in this file.
-```
+```xml
 <group name="Land_Mil_FireStation" lootmax="15">
 	<usage name="Military" />
 	<usage name="Firefighter" />

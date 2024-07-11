@@ -2,7 +2,7 @@
 DayZ supports saving with deserialisation and loading by serialising data to and from JSON files, very similar to how C#/.NET does it. It can act as an alternative to the XML files that DayZ generally use in the Mission files and as a mission specific alternative to config files. Storing values as configs should let you modify the behaviour of mods on a server without having to patch the mods themselves. Serialisation supports all types that makes sense to JSON, meaning that you can use integers, decimals, strings and arrays. Enums are supported but by converting an integer in the JSON to an enum value, so it is not very legible what enum value it is when you look in the JSON. Saving and loading any kind of binary data is probably best done as a string if you can find a way of serialise it in some way.
 # Loading JSON from disk
 The JSON file can be located in 'DayZServer/mpmissions/dayzOffline.chernarusplus/' if you use the standard server setup.
-```
+```json
 {
 	"MyInteger": 1234,
 	"MyDecimal": 6.9,
@@ -26,7 +26,7 @@ The JSON file can be located in 'DayZServer/mpmissions/dayzOffline.chernarusplus
 }
 ```
 We then need to set up the class structure that matches the JSON inside the mod. All the class names are arbitrary (you can name them whatever you want) but it might be a good idea to prefix them with something to make it apparent that they are read from a JSON. Classes can be written in any order.
-```
+```cpp
 enum AnEnum
 {
 	SomeValue,
@@ -58,7 +58,7 @@ class JSON_ObjectArrayElement
 }
 ```
 With the class structure set up we can now load the JSON at any point in our mod code. I have not yet run into a case where the load fails for being too early or anything.
-```
+```cpp
 class TestJson
 {
 	static JSON_TestJson LoadDataFromDisk()
@@ -85,7 +85,7 @@ class TestJson
 }
 ```
 If you call 'LoadDataFromDisk' you will get an object back containing the serialised version of the JSON file. So from this point on you can just use it as any other object in your code.
-```
+```cpp
 void DoSomething()
 {
 	auto jsonData = TestJson.LoadDataFromDisk();
@@ -99,7 +99,7 @@ void DoSomething()
 ```
 # Saving JSON to disk
 Just like you can serialise a JSON file into data you can do the reverse and deserialise game data into a JSON file. It's very much just loading in reverse so if you set up the `JSON_TestJson` and `JSON_ObjectArrayElement` classes like in the Loading example you can use `JsonFileLoader.SaveFile` to save it to a file.
-```
+```cpp
 bool SaveJsonToFile()
 {
 	auto myData = new JSON_TestJson();
@@ -152,7 +152,7 @@ Expecting int
 Cannot convert to int
 ```
 You can generally see this as an upside-down call stack. The JSON I was trying to load looked something like this:
-```
+```json
 {
 	"mapZones": [
 		{
@@ -187,7 +187,7 @@ So translated the error message is:
 - It was not an integer!
 
 The error in this case is that my 'shape' variable is a string rather than an integer and it can be resolved by either changing "Circle" to 0 or changing the class to instead take a string. This is an error I ran into when I was trying to figure out if you could read enum values by string or not. My classes for reference:
-```
+```cpp
 class ZRCfgMapZones {
 	ref array<ref ITEM_MapZone> mapZones = new array<ref ITEM_MapZone>();
 }
@@ -204,7 +204,7 @@ In general, reading JSON loading errors means that you read the last line of the
 # Pitfalls
 ## Default Values
 Any default initialisation values set in the classes in the code of your mod will be stomped over by their type default if they don't exist in the JSON that you are loading.
-```
+```cpp
 class Stomped
 {
 	int MyInt = 1;
@@ -213,13 +213,13 @@ class Stomped
 }
 ```
 If we try to load this JSON.
-```
+```json
 {
 	"MyInt": 3
 }
 ```
 'MyFloat' will be set to '0.0' and 'MyString' will be an empty string since they were not present in the JSON. This kind of requires you to write out default values or handling them in some other way.
-```
+```json
 {
 	"MyInt": 3,
 	"MyFloat": 133.7,
