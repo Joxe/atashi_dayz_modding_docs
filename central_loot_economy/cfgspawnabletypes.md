@@ -1,0 +1,2 @@
+# Introduction
+The `cfgspawnabletypes.xml` seems to primarily be for allowing items and zombies to contain loot and attachments. It is also closely coupled with [types.xml](db/types.md) and [cfgrandompresets.xml](cfgrandompresets.md)
