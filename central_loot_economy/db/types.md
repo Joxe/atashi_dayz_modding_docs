@@ -1,25 +1,25 @@
 # Introduction
 The types XML an entry for all objects that should be take into account by the Central Loot System, it's a long list of entries that all look kind of the same, let's break it down.
-```
+```xml
 <type name="M16A2">
-    <nominal>7</nominal>
-    <lifetime>28800</lifetime>
-    <restock>0</restock>
-    <min>4</min>
-    <quantmin>30</quantmin>
-    <quantmax>80</quantmax>
-    <cost>100</cost>
-    <flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0"/>
-    <category name="weapons"/>
-    <usage name="Military"/>
-    <value name="Tier3"/>
-    <value name="Tier4"/>
+	<nominal>7</nominal>
+	<lifetime>28800</lifetime>
+	<restock>0</restock>
+	<min>4</min>
+	<quantmin>30</quantmin>
+	<quantmax>80</quantmax>
+	<cost>100</cost>
+	<flags count_in_cargo="0" count_in_hoarder="0" count_in_map="1" count_in_player="0" crafted="0" deloot="0"/>
+	<category name="weapons"/>
+	<usage name="Military"/>
+	<value name="Tier3"/>
+	<value name="Tier4"/>
 </type>
 A lot of element descriptions are taken from [this thread on the DayZ forums](https://forums.dayz.com/topic/247502-typesxml-need-explanation/) alongside my own experience, thanks to everyone who helped out in that thread!
 ```
 ## type
 The first line of `<type name="M16A2">` tells the CLE what object to spawn. It should correspond exactly with the class name in either DayZ config files or any item you have added through a mod. So in this case the CLE knows that it is targeting this class in `\DZ\weapons\firearms\m16a2\config.cpp`:
-```
+```cpp
 class M16A2: M16A2_Base
 {
 	scope=2;

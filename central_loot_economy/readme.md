@@ -27,7 +27,5 @@ The full breakdown of this piece of code can be found in the [types.xml document
 Taking all this into account this should at least let you steer the CLE towards the kind of loot you want on your server.
 # Resetting the server
 The easiest way to reset the server is to simply delete or move the `\DayZServer\mpmissions\dayzOffline.chernarusplus\storage_1` directory. There are probably ways of doing resetting only selected parts of the persistance but I haven't tried it. With the `storage_1` directory out of the way the server will be completely fresh and the CLE will do an initial sweep all over the map and spawn all the items it thinks should be there. This lets you do rapid testing with different loot settings and see the result instantly (bar any dynamic events that might happen later in the server lifetime).
-# Creating your own loot category
-This part expects you to read and somewhat understand [types.xml](db/types.md), [cfglimitsdefinition.xml](cfglimitsdefinition.md) and [mapgroupproto.xml](mapgroupproto.md) as they are all important to adding your own loot category.
 # Play around!
 The most important part about the CLE is that you should play around with values, make use of the fact this is data-driven development. You don't have to know how to mod script or mod in general to make quite drastic changes to you server. I will try to include a readme file for each XML file that explains how they work (to the best of my knowledge) and from there it's really up to you.
